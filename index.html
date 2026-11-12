@@ -335,7 +335,7 @@ async function shareIt(data, btn) {
 }
 document.addEventListener("click", e => {
   const sp = e.target.closest("#share-page");
-  if (sp) { shareIt({ title: "Behind the Grind", text: "Here is the Behind the Grind member directory. Local pros who know each other's work and refer with confidence. Tap the webpage above to call, text or email any of them.", url: siteUrl() }, sp); return; }
+  if (sp) { shareIt({ title: "Behind the Grind", text: "Here is the Behind the Grind member directory. Local pros who know each other's work and refer with confidence. Tap the webpage to call, text or email any of them.", url: siteUrl() }, sp); return; }
   const sh = e.target.closest("button[data-share]");
   if (sh) {
     const v = PEOPLE[+sh.dataset.share];
@@ -344,7 +344,7 @@ document.addEventListener("click", e => {
     if (v.email) lines.push(v.email);
     if (v.url) lines.push(v.url.replace(/^https?:\/\//, "").replace(/\/$/, ""));
     const u = siteUrl();
-    shareIt({ title: v.company, text: "Here is the contact I mentioned. Check out the webpage above for the rest of the Behind the Grind chapter.\n\nFrom the Behind the Grind chapter of AmSpirit Business Connections:\n\n" + lines.join("\n"), url: u ? u + "#" + sh.closest(".card").id : "" }, sh);
+    shareIt({ title: v.company, text: "Here is the contact I mentioned. Check out the webpage for the rest of the Behind the Grind chapter.\n\nFrom the Behind the Grind chapter of AmSpirit Business Connections:\n\n" + lines.join("\n"), url: u ? u + "#" + sh.closest(".card").id : "" }, sh);
   }
 });
 </script>
