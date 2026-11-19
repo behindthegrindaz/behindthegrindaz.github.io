@@ -405,6 +405,8 @@ document.addEventListener("click", e => {
 /* ===== LOG A REFERRAL =====
    Submissions go to Web3Forms, which emails Paige Martinez. The access key is meant to be public. */
 const W3F_KEY = "259c18fa-d862-4fe7-ad46-e51793e53d58";
+/* A second form in the same Web3Forms account whose recipient is the backup reporter. Each referral is sent to both. Leave empty to turn the copy off. */
+const W3F_COPY_KEY = "fcf576d0-fe32-4d65-9111-3ac454e2759b";
 const rfForm = document.getElementById("ref-form");
 const rfFrom = document.getElementById("rf-from");
 const rfTo = document.getElementById("rf-to");
@@ -462,6 +464,9 @@ rfForm.addEventListener("submit", async e => {
     const r = await fetch("https://api.web3forms.com/submit", { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(payload) });
     const j = await r.json().catch(() => ({}));
     if (!r.ok || j.success === false) throw new Error(j.message || "failed");
+    if (W3F_COPY_KEY && W3F_COPY_KEY.indexOf("__") !== 0) {
+      try { fetch("https://api.web3forms.com/submit", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(Object.assign({}, payload, { access_key: W3F_COPY_KEY })) }); } catch (err) {}
+    }
     try { localStorage.setItem("btg_member", from); } catch (err) {}
     rfStatus.className = "status ok"; rfStatus.textContent = "Thank you. Your referral to " + to + " was logged.";
     rfTo.value = ""; document.getElementById("rf-first").value = ""; document.getElementById("rf-note").value = "";
